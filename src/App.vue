@@ -1,11 +1,10 @@
-<script setup></script>
+<script setup>
+import RecipeCard from './components/RecipeCard.vue';
+import './assets/main.css';
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+<RecipeCard></RecipeCard>
 </template>
 
 <style scoped></style>
