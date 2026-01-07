@@ -1,0 +1,17 @@
+:root {
+  --primary-color: #486c0c;
+  --secondary-color: #e6f0d5;
+  --accent-color: #e81224;
+  --stroke-color: #e6e9ed;
+  --font-color: #26313a;
+  --font-family: 'inter', sans-serif;
+  --border-radius: 8px;
+  --border-stroke: 1px solid;
+  --font-size-bodytext: 16px;
+  --font-size-headings: 32px;
+  --font-size-smalltext: 12px;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
