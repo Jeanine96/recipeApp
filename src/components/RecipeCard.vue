@@ -1,48 +1,23 @@
 <template>
     <div class="recipeCard-container">
       <div class="recipeCard-image">
-        <img src="https://images.pexels.com/photos/842142/pexels-photo-842142.jpeg" alt="recipe image" />
+        <img :src="picture" alt="recipe image" />
       </div>
       <div class="recipeCard-description">
-        <p class="recipe-time">tijd</p>
-        <p class="recipe-title">titel</p>
+        <p class="recipe-time">{{ time }} minuten</p>
+        <p class="recipe-title">{{ title }}</p>
       </div>
     </div>
 </template>
 <script>
-    import { query, collection, getDocs } from "firebase/firestore"
-import db from "../firebase/firebase.js"
-
 export default {
-  data() {
-    return {
-      recipes: []
+    name: 'RecipeCard',
+    props: {
+      picture: String,
+      time:  Number,
+      title: String
     }
-  },
-  async created() {
-    await this.getRecipes()
-  },
-  methods: {
-    async getRecipes() {
-      const q = query(collection(db, 'recipes'))
-      const querySnap = await getDocs(q)
-
-      this.recipes = [] 
-
-      querySnap.forEach((doc) => {
-        this.recipes.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
-        console.log(this.recipes)
-    }
-  }
-}
-
-
-
-
+};
 </script>
 <style scoped>
     .recipeCard-container {
