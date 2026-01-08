@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #486c0c;
+  --primary-color: #5e8e0e;
   --secondary-color: #e6f0d5;
   --accent-color: #e81224;
   --stroke-color: #e6e9ed;
@@ -12,12 +12,18 @@
   --font-size-smalltext: 12px;
 }
 body {
-  margin: 0px 16px;
+  margin: 16px 16px 48px 16px;
   padding: 0;
   overflow-x: hidden;
   font-family: var(--font-family);
   color: var(--font-color);
   p {
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: var(--font-size-headings);
     margin: 0;
     padding: 0;
   }
