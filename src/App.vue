@@ -1,11 +1,49 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <RecipeCard
+    v-for="recipe in recipes"
+    :key="recipe.id"
+    :picture="recipe.picture"
+    :time="recipe.time"
+    :title="recipe.title"
+    :category="recipe.category"
+  ></RecipeCard>
 </template>
+<script>
+import RecipeCard from './components/RecipeCard.vue'
+import './assets/main.css'
+
+import { collection, getDocs } from 'firebase/firestore'
+import db from './firebase/firebase.js'
+
+export default {
+  components: {
+    RecipeCard,
+  },
+  data() {
+    return {
+      recipes: [],
+    }
+  },
+  async created() {
+    await this.getRecipes()
+  },
+  methods: {
+    async getRecipes() {
+      const q = collection(db, 'recipes')
+      const querySnap = await getDocs(q)
+
+      this.recipes = []
+
+      querySnap.forEach((doc) => {
+        this.recipes.push({
+          id: doc.id,
+          ...doc.data(),
+        })
+      })
+      console.log(this.recipes.title)
+    },
+  },
+}
+</script>
 
 <style scoped></style>
