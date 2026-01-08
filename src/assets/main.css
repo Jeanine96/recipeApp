@@ -17,4 +17,8 @@ body {
   overflow-x: hidden;
   font-family: var(--font-family);
   color: var(--font-color);
+  p {
+    margin: 0;
+    padding: 0;
+  }
 }
