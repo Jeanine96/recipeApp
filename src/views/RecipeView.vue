@@ -13,7 +13,6 @@
 </template>
 <script>
 import RecipeCard from '@/components/RecipeCard.vue'
-import '@/assets/main.css'
 import { collection, getDocs } from 'firebase/firestore'
 import db from '@/firebase/firebase.js'
 
