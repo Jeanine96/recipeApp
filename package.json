@@ -14,8 +14,11 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "firebase": "^12.7.0",
-    "vue": "^3.5.26"
+    "material-icons": "^1.13.14",
+    "vue": "^3.5.26",
+    "vuetify": "^4.0.0-alpha.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
