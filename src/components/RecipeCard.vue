@@ -1,5 +1,5 @@
 <template>
-  <div class="recipeCard-container">
+  <div class="recipeCard-container" @click="goToRecipeDetail">
     <div class="recipeCard-image">
       <img :src="picture" alt="recipe image" />
     </div>
@@ -21,6 +21,11 @@ export default {
     title: String,
     category: String,
   },
+  methods: {
+    goToRecipeDetail() {
+      this.$router.push({ name: 'RecipeDetailView', params: { id: this.id }, state: { recipe: this.recipe } })
+    },
+  }
 }
 </script>
 <style scoped>
