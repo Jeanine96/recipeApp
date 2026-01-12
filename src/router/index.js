@@ -1,4 +1,12 @@
+import { createRouter, createWebHistory } from 'vue-router'
+import RecipeView from '@/views/RecipeView.vue'
+
 const routes = [
+  {
+    path: '/',
+    name: 'recipe-view',
+    component: RecipeView,
+  },
   {
     path: '/recipe/:id',
     name: 'recipe-detail',
@@ -7,4 +15,9 @@ const routes = [
   },
 ]
 
-export default routes
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+})
+
+export default router

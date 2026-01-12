@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="overflow-visible" style="height: 56px;">
+  <v-layout class="overflow-visible">
     <v-bottom-navigation
       v-model="value"
       bg-color="var(--secondary-color)"

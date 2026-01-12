@@ -8,6 +8,8 @@
       :time="recipe.time"
       :title="recipe.title"
       :category="recipe.category"
+      :id="recipe.id"
+      :recipe="recipe"
     ></RecipeCard>
   </div>
 </template>
