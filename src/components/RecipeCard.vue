@@ -2,6 +2,9 @@
   <router-link class="recipeCard-container" :to="{ name: 'RecipeDetailView', params: { id: id } }">
     <div class="recipeCard-image">
       <img :src="picture" alt="recipe image" />
+      <div class="favorite-overlay">
+        <FavoriteButton v-model="isFavorite" @update:modelValue="onFavoriteToggled" />
+      </div>
     </div>
     <div class="recipeCard-description">
       <div class="recipe-info">
@@ -14,14 +17,35 @@
 </template>
 
 <script>
+import FavoriteButton from '@/components/FavoriteButton.vue'
 export default {
   name: 'RecipeCard',
+  components: {
+    FavoriteButton,
+  },
   props: {
     id: { type: String, required: true },
     picture: { type: String, required: true },
     time: { type: Number, required: true },
     title: { type: String, required: true },
     category: { type: String, required: true },
+    favorite: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      isFavorite: this.favorite,
+    }
+  },
+  watch: {
+    favorite(val) {
+      this.isFavorite = val
+    },
+  },
+  methods: {
+    onFavoriteToggled(val) {
+      this.isFavorite = val
+      this.$emit('favorite-toggled', { id: this.id, value: val })
+    },
   },
 }
 </script>
@@ -36,9 +60,21 @@ export default {
   overflow: hidden;
 }
 
+.recipeCard-image {
+  position: relative;
+}
+
 .recipeCard-image img {
   width: 100%;
   height: auto;
+}
+
+.favorite-overlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
 }
 
 .recipeCard-description {
