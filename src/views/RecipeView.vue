@@ -58,7 +58,6 @@ export default {
 
 h1 {
   margin-bottom: 16px;
-  color: var(--primary-color);
 }
 
 .recipe-list {
