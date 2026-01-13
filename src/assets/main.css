@@ -23,6 +23,11 @@ body {
   overflow-x: hidden;
   font-family: var(--font-family);
   color: var(--font-color);
+
+  p1 {
+    font-size: var(--font-size-bodytext);
+    font-weight: bold;
+  }
   p {
     font-size: var(--font-size-bodytext);
   }
