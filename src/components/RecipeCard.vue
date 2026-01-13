@@ -103,7 +103,7 @@ export default {
 
 .recipe-info {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
   font-size: 14px;
 }
 

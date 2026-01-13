@@ -1,16 +1,18 @@
 <template>
-  <h1>Recepten</h1>
-  <div class="recipe-list">
-    <RecipeCard
-      v-for="recipe in recipes"
-      :key="recipe.id"
-      :picture="recipe.picture"
-      :time="recipe.time"
-      :title="recipe.title"
-      :category="recipe.category"
-      :id="recipe.id"
-      :recipe="recipe"
-    ></RecipeCard>
+  <div class="recipe-view">
+    <h1>Recepten</h1>
+    <div class="recipe-list">
+      <RecipeCard
+        v-for="recipe in recipes"
+        :key="recipe.id"
+        :picture="recipe.picture"
+        :time="recipe.time"
+        :title="recipe.title"
+        :category="recipe.category"
+        :id="recipe.id"
+        :recipe="recipe"
+      ></RecipeCard>
+    </div>
   </div>
 </template>
 <script>
@@ -50,6 +52,10 @@ export default {
 </script>
 
 <style scoped>
+.recipe-view {
+  margin: 16px 16px 80px 16px;
+}
+
 h1 {
   margin-bottom: 16px;
   color: var(--primary-color);

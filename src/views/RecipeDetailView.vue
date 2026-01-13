@@ -14,7 +14,7 @@
       </div>
 
       <!-- Ingredients -->
-      <h2>Ingredients</h2>
+      <h2>Ingredienten</h2>
       <ul>
         <li v-for="(ingredient, index) in recipe.ingredients" :key="index">
           <label class="ingredient">
@@ -25,7 +25,7 @@
       </ul>
 
       <!-- Instructions -->
-      <h2>Instructions</h2>
+      <h2>Bereidingswijze</h2>
       <ol>
         <li v-for="(instruction, index) in recipe.instructions" :key="index">
           {{ instruction }}
@@ -34,10 +34,7 @@
     </div>
   </div>
 
-  <!-- Loading / fallback -->
-  <div v-else>
-    <p>Loading recipe...</p>
-  </div>
+  <!-- Loading fallback removed to avoid showing message during navigation -->
 </template>
 
 <script>
@@ -68,7 +65,7 @@ export default {
   },
   methods: {
     async fetchRecipe(id) {
-      console.log('Fetching recipe for ID:', id) // ✅ check ID
+      console.log('Fetching recipe for ID:', id) // check ID received
       if (!id) return
 
       try {
@@ -77,7 +74,7 @@ export default {
 
         if (docSnap.exists()) {
           const data = docSnap.data()
-          console.log('Recipe data:', data) // ✅ see what Firestore returns
+          console.log('Recipe data:', data) // data fetched from Firestore
 
           // Convert ingredients to objects with checked
           const ingredients = data.ingredients.map((i) => ({ text: i, checked: false }))
@@ -90,7 +87,7 @@ export default {
             instructions,
           }
 
-          console.log('Recipe assigned:', this.recipe)
+          console.log('Recipe assigned:', this.recipe) // final recipe object
         } else {
           console.warn('No such document!')
           this.recipe = null
@@ -105,10 +102,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  margin: 0 !important;
-}
-
 .recipe-image img {
   width: 100%;
   height: auto;
@@ -117,7 +110,7 @@ h1 {
   margin-bottom: 8px;
 }
 .recipe-details {
-  padding: 16px 16px 48px 16px;
+  padding: 16px 16px 64px 16px;
 }
 
 li {
@@ -209,6 +202,10 @@ ol li::before {
   content: counter(step);
   width: 36px;
   height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  flex: 0 0 36px;
+  box-sizing: border-box;
   border-radius: 50%;
   background: var(--secondary-color);
   color: var(--primary-color);
@@ -217,5 +214,8 @@ ol li::before {
   justify-content: center;
   font-weight: 600;
   font-size: var(--font-size-bodytext);
+  line-height: 1;
+  padding: 0;
+  overflow: hidden;
 }
 </style>
