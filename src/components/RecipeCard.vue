@@ -55,7 +55,7 @@ export default {
 </style> -->
 
 <template>
-  <router-link class="recipeCard-container" :to="{ name: 'recipe-detail', params: { id: id } }">
+  <router-link class="recipeCard-container" :to="{ name: 'RecipeDetailView', params: { id: id } }">
     <div class="recipeCard-image">
       <img :src="picture" alt="recipe image" />
     </div>

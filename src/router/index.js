@@ -8,8 +8,8 @@ const routes = [
     component: RecipeView,
   },
   {
-    path: '/recipe/:id',
-    name: 'recipe-detail',
+    path: '/views/RecipeDetailView/:id',
+    name: 'RecipeDetailView',
     component: () => import('@/views/RecipeDetailView.vue'),
     props: true,
   },
