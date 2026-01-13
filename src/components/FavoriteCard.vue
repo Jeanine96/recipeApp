@@ -1,18 +1,23 @@
 <template>
   <div class="favorite-card">
-    <img
-      src="https://images.pexels.com/photos/842142/pexels-photo-842142.jpeg"
-      alt="favorite icon"
-    />
+    <img :src="picture" alt="favorite icon" />
     <div class="favorite-text">
-      <p1>Yoghurt</p1>
-      <p>15 minuten</p>
+      <p1>{{ title }}</p1>
+      <p>{{ category }} • {{ time }} minuten</p>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'FavoriteCard',
+  props: {
+    id: { type: String, required: true },
+    picture: { type: String, required: true },
+    time: { type: Number, required: true },
+    title: { type: String, required: true },
+    category: { type: String, required: true },
+    favorite: { type: Boolean, required: true },
+  },
 }
 </script>
 <style scoped>
