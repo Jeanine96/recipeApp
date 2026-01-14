@@ -72,22 +72,25 @@ export default {
   },
   methods: {
     async fetchRecipe(id) {
+      // Fetch recipe details from Firestore
       if (!id) return
 
-      const docRef = doc(db, 'recipes', id)
-      const docSnap = await getDoc(docRef)
+      const docRef = doc(db, 'recipes', id) // Reference to the recipe document
+      const docSnap = await getDoc(docRef) // Await the document snapshot
 
       if (!docSnap.exists()) {
+        // If recipe does not exist
         this.recipe = null
         return
       }
 
-      const data = docSnap.data()
+      const data = docSnap.data() // Get recipe data
 
       this.recipe = {
-        id: docSnap.id,
-        ...data,
+        id: docSnap.id, // Include document ID in recipe
+        ...data, // Spread the rest of the data
         ingredients: data.ingredients.map((i) => ({
+          // Add 'checked' property to each ingredient
           amount: i.amount,
           unit: i.unit,
           name: i.name,
@@ -96,11 +99,12 @@ export default {
       }
     },
     toggleIngredient(index) {
-      this.recipe.ingredients[index].checked = !this.recipe.ingredients[index].checked
+      this.recipe.ingredients[index].checked = !this.recipe.ingredients[index].checked // Toggle the 'checked' state
     },
   },
   computed: {
     adjustedIngredients() {
+      // Adjust ingredient amounts based on selected persons
       if (!this.recipe) return []
 
       const factor = this.persons / 2
