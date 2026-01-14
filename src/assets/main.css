@@ -11,6 +11,7 @@
   --font-size-h1: 32px;
   --font-size-h2: 24px;
   --font-size-smalltext: 12px;
+  --background-color: #ffffff;
 }
 /* Reset styles */
 * {
