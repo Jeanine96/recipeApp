@@ -1,26 +1,28 @@
-import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
+// src/firebase/favoriteService.js
+import { doc, onSnapshot, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
 import db from '@/firebase/firebase.js'
 
-// single user
 const userId = 'user123'
 const userRef = doc(db, 'users', userId)
 
-export async function getUserFavorites() {
-  const userSnap = await getDoc(userRef)
-  if (userSnap.exists()) {
-    return userSnap.data().favorites || []
+export function subscribeToUserFavorites(callback) {
+  if (typeof callback !== 'function') {
+    throw new Error('subscribeToUserFavorites expects a function as argument')
   }
-  return []
+
+  return onSnapshot(userRef, (docSnap) => {
+    if (docSnap.exists()) {
+      callback(docSnap.data().favorites || [])
+    } else {
+      callback([])
+    }
+  })
 }
 
 export async function addFavorite(recipeId) {
-  await updateDoc(userRef, {
-    favorites: arrayUnion(recipeId),
-  })
+  await setDoc(userRef, { favorites: arrayUnion(recipeId) }, { merge: true })
 }
 
 export async function removeFavorite(recipeId) {
-  await updateDoc(userRef, {
-    favorites: arrayRemove(recipeId),
-  })
+  await setDoc(userRef, { favorites: arrayRemove(recipeId) }, { merge: true })
 }

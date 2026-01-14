@@ -1,9 +1,9 @@
 <template>
   <router-link class="recipeCard-container" :to="{ name: 'RecipeDetailView', params: { id: id } }">
     <div class="recipeCard-image">
-      <img :src="picture" alt="recipe image" />
+      <img :src="picture[0]" loading="lazy" alt="recipe image" />
       <div class="favorite-overlay">
-        <FavoriteButton v-model="isFavorite" @update:modelValue="onFavoriteToggled" />
+        <FavoriteButton v-model="isFavorite" @update:modelValue="handleFavoriteToggled" />
       </div>
     </div>
     <div class="recipeCard-description">
@@ -25,7 +25,7 @@ export default {
   components: { FavoriteButton },
   props: {
     id: { type: String, required: true },
-    picture: { type: String, required: true },
+    picture: { type: Array, required: true },
     time: { type: Number, required: true },
     title: { type: String, required: true },
     category: { type: String, required: true },
@@ -41,7 +41,7 @@ export default {
     },
   },
   methods: {
-    async onFavoriteToggled(val) {
+    async handleFavoriteToggled(val) {
       this.isFavorite = val
       if (val) {
         await addFavorite(this.id) // Add to favorites in Firestore
@@ -49,6 +49,11 @@ export default {
         await removeFavorite(this.id) // Remove from favorites in Firestore
       }
       this.$emit('favorite-toggled', { id: this.id, value: val })
+    },
+  },
+  computed: {
+    smallPicture() {
+      return this.picture[0] || this.picture[1] || ''
     },
   },
 }

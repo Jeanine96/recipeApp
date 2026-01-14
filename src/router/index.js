@@ -13,11 +13,21 @@ const routes = [
     component: () => import('@/views/RecipeDetailView.vue'),
     props: true,
   },
+  {
+    path: '/views/FavoriteListView',
+    name: 'FavoriteListView',
+    component: () => import('@/views/FavoriteListView.vue'),
+    props: true,
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.afterEach((to) => {
+  document.title = to.meta.title || 'Recepten App'
 })
 
 export default router

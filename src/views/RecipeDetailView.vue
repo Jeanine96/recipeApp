@@ -2,7 +2,7 @@
   <div v-if="recipe" class="recipe-detail">
     <!-- Recipe image -->
     <div class="recipe-image">
-      <img :src="recipe.picture" alt="recipe detail image" />
+      <img :src="recipe.picture[1]" loading="lazy" alt="recipe detail image" />
     </div>
 
     <!-- Recipe details -->

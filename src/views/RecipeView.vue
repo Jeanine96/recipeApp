@@ -21,7 +21,7 @@
 import RecipeCard from '@/components/RecipeCard.vue'
 import { collection, getDocs } from 'firebase/firestore'
 import db from '@/firebase/firebase.js'
-import { getUserFavorites } from '@/firebase/favoriteService.js'
+import { subscribeToUserFavorites } from '@/firebase/favoriteService.js'
 
 export default {
   components: { RecipeCard },
@@ -29,11 +29,22 @@ export default {
     return {
       recipes: [],
       favorites: [],
+      unsubscribe: null,
     }
   },
   async created() {
     await this.fetchRecipes() // Fetch all recipes
-    this.favorites = await getUserFavorites() // Fetch user's favorite recipe IDs
+    this.unsubscribe = subscribeToUserFavorites((favoriteIds) => {
+      // Real-time updates for favorites
+      this.favorites = favoriteIds
+    })
+  },
+  beforeUnmount() {
+    // Unsubscribe from favorites listener to prevent memory leaks
+    if (this.unsubscribe) {
+      this.unsubscribe()
+      console.log('Unsubscribed from favorites listener', this.unsubscribe)
+    }
   },
   methods: {
     async fetchRecipes() {
