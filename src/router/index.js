@@ -13,6 +13,12 @@ const routes = [
     component: () => import('@/views/RecipeDetailView.vue'),
     props: true,
   },
+  {
+    path: '/views/FavoriteListView',
+    name: 'FavoriteListView',
+    component: () => import('@/views/FavoriteListView.vue'),
+    props: true,
+  },
 ]
 
 const router = createRouter({

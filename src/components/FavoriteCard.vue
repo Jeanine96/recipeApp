@@ -1,15 +1,25 @@
 <template>
-  <div class="favorite-card">
-    <img :src="picture" alt="favorite icon" />
-    <div class="favorite-text">
-      <p1>{{ title }}</p1>
-      <p>{{ category }} • {{ time }} minuten</p>
+  <router-link
+    class="favorite-card-container"
+    :to="{ name: 'RecipeDetailView', params: { id: id } }"
+  >
+    <div class="favorite-card">
+      <img :src="picture" alt="favorite icon" />
+      <div class="favorite-overlay">
+        <FavoriteButton v-model="isFavorite" @update:modelValue="onFavoriteToggled" />
+      </div>
+      <div class="favorite-text">
+        <p1>{{ title }}</p1>
+        <p>{{ category }} • {{ time }} minuten</p>
+      </div>
     </div>
-  </div>
+  </router-link>
 </template>
 <script>
+import FavoriteButton from '@/components/FavoriteButton.vue'
 export default {
   name: 'FavoriteCard',
+  components: { FavoriteButton },
   props: {
     id: { type: String, required: true },
     picture: { type: String, required: true },
@@ -21,6 +31,11 @@ export default {
 }
 </script>
 <style scoped>
+.favorite-card-container {
+  display: block;
+  text-decoration: none;
+  color: inherit; /* Ensure text color is inherited */
+}
 .favorite-card {
   display: flex;
   width: 100%;
@@ -33,6 +48,15 @@ export default {
   min-width: 0; /* Prevent image from growing too large */
   width: 100%;
 }
+
+.favorite-overlay {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: flex;
+}
+
 .favorite-text {
   flex: 1;
   gap: 4px;
