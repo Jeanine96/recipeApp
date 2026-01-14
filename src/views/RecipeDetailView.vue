@@ -8,18 +8,29 @@
     <!-- Recipe details -->
     <div class="recipe-details">
       <h1>{{ recipe.title }}</h1>
+
       <div class="recipe-info">
         <p>{{ recipe.time }} minutes</p>
         <p>{{ recipe.category }}</p>
       </div>
 
+      <!-- Portion counter -->
+      <PortionCounter v-model="persons" />
+
       <!-- Ingredients -->
       <h2>Ingredienten</h2>
       <ul>
-        <li v-for="(ingredient, index) in recipe.ingredients" :key="index">
+        <li v-for="(ingredient, index) in adjustedIngredients" :key="index">
           <label class="ingredient">
-            <input type="checkbox" v-model="ingredient.checked" />
-            <span :class="{ done: ingredient.checked }">{{ ingredient.text }}</span>
+            <input
+              type="checkbox"
+              :checked="ingredient.checked"
+              @change="toggleIngredient(index)"
+            />
+
+            <span :class="{ done: ingredient.checked }">
+              {{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.name }}
+            </span>
           </label>
         </li>
       </ul>
@@ -33,29 +44,25 @@
       </ol>
     </div>
   </div>
-
-  <!-- Loading fallback removed to avoid showing message during navigation -->
 </template>
 
 <script>
 import { doc, getDoc } from 'firebase/firestore'
 import db from '@/firebase/firebase.js'
+import PortionCounter from '@/components/PortionCounter.vue'
 export default {
   name: 'RecipeDetailView',
+  components: { PortionCounter },
   props: {
-    id: String, // This comes from route.params.id if using props:true in router
+    id: String,
   },
   data() {
     return {
       recipe: null,
+      persons: 2, // base recipe is for 2 persons
     }
   },
-  async mounted() {
-    // Initial fetch when component mounts
-    await this.fetchRecipe(this.id)
-  },
   watch: {
-    // Watch for changes to the id prop (when navigating to another recipe)
     id: {
       immediate: true,
       handler(newId) {
@@ -65,37 +72,45 @@ export default {
   },
   methods: {
     async fetchRecipe(id) {
-      console.log('Fetching recipe for ID:', id) // check ID received
       if (!id) return
 
-      try {
-        const docRef = doc(db, 'recipes', id)
-        const docSnap = await getDoc(docRef)
+      const docRef = doc(db, 'recipes', id)
+      const docSnap = await getDoc(docRef)
 
-        if (docSnap.exists()) {
-          const data = docSnap.data()
-          console.log('Recipe data:', data) // data fetched from Firestore
-
-          // Convert ingredients to objects with checked
-          const ingredients = data.ingredients.map((i) => ({ text: i, checked: false }))
-          const instructions = data.instructions
-
-          this.recipe = {
-            id: docSnap.id,
-            ...data,
-            ingredients,
-            instructions,
-          }
-
-          console.log('Recipe assigned:', this.recipe) // final recipe object
-        } else {
-          console.warn('No such document!')
-          this.recipe = null
-        }
-      } catch (error) {
-        console.error('Error fetching recipe:', error)
+      if (!docSnap.exists()) {
         this.recipe = null
+        return
       }
+
+      const data = docSnap.data()
+
+      this.recipe = {
+        id: docSnap.id,
+        ...data,
+        ingredients: data.ingredients.map((i) => ({
+          amount: i.amount,
+          unit: i.unit,
+          name: i.name,
+          checked: false,
+        })),
+      }
+    },
+    toggleIngredient(index) {
+      this.recipe.ingredients[index].checked = !this.recipe.ingredients[index].checked
+    },
+  },
+  computed: {
+    adjustedIngredients() {
+      if (!this.recipe) return []
+
+      const factor = this.persons / 2
+
+      return this.recipe.ingredients.map((ingredient) => ({
+        ...ingredient,
+        amount: Number.isInteger(ingredient.amount * factor)
+          ? ingredient.amount * factor
+          : (ingredient.amount * factor).toFixed(1),
+      }))
     },
   },
 }
