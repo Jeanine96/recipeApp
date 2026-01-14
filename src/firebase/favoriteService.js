@@ -6,6 +6,10 @@ const userId = 'user123'
 const userRef = doc(db, 'users', userId)
 
 export function subscribeToUserFavorites(callback) {
+  if (typeof callback !== 'function') {
+    throw new Error('subscribeToUserFavorites expects a function as argument')
+  }
+
   return onSnapshot(userRef, (docSnap) => {
     if (docSnap.exists()) {
       callback(docSnap.data().favorites || [])

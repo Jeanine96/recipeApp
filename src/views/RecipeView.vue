@@ -43,6 +43,7 @@ export default {
     // Unsubscribe from favorites listener to prevent memory leaks
     if (this.unsubscribe) {
       this.unsubscribe()
+      console.log('Unsubscribed from favorites listener', this.unsubscribe)
     }
   },
   methods: {
