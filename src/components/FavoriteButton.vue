@@ -8,20 +8,22 @@
     <v-icon>{{ modelValue ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
   </button>
 </template>
+
 <script>
 export default {
   name: 'FavoriteButton',
   props: {
     modelValue: { type: Boolean, required: true },
   },
-  emits: ['update:modelValue'], // Declare the emitted event
+  emits: ['update:modelValue'],
   methods: {
     toggle() {
-      this.$emit('update:modelValue', !this.modelValue) // Emit the updated value
+      this.$emit('update:modelValue', !this.modelValue)
     },
   },
 }
 </script>
+
 <style scoped>
 .favorite-button {
   border-radius: 50%;

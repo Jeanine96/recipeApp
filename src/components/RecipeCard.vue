@@ -18,11 +18,11 @@
 
 <script>
 import FavoriteButton from '@/components/FavoriteButton.vue'
+import { addFavorite, removeFavorite } from '@/firebase/favoriteService.js'
+
 export default {
   name: 'RecipeCard',
-  components: {
-    FavoriteButton,
-  },
+  components: { FavoriteButton },
   props: {
     id: { type: String, required: true },
     picture: { type: String, required: true },
@@ -32,18 +32,22 @@ export default {
     favorite: { type: Boolean, default: false },
   },
   data() {
-    return {
-      isFavorite: this.favorite,
-    }
+    return { isFavorite: this.favorite }
   },
   watch: {
     favorite(val) {
-      this.isFavorite = val
+      this.isFavorite = val //change the prop to true or false
+      console.log('Favorite prop changed to:', this.isFavorite)
     },
   },
   methods: {
-    onFavoriteToggled(val) {
+    async onFavoriteToggled(val) {
       this.isFavorite = val
+      if (val) {
+        await addFavorite(this.id) // Add to favorites in Firestore
+      } else {
+        await removeFavorite(this.id) // Remove from favorites in Firestore
+      }
       this.$emit('favorite-toggled', { id: this.id, value: val })
     },
   },
