@@ -200,11 +200,6 @@ ul {
   transform: translateY(-50%) rotate(45deg) scale(1);
 }
 
-.done {
-  text-decoration: line-through;
-  opacity: 0.7;
-}
-
 /* Numbered circular markers for instruction steps (flex layout for controllable gaps) */
 ol {
   counter-reset: step;
