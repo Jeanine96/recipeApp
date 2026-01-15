@@ -1,12 +1,12 @@
 <template>
   <v-layout class="overflow-visible">
-    <v-bottom-navigation v-model="active" bg-color="var(--secondary-color)" grow>
-      <v-btn value="recipe-view" :to="{ name: 'recipe-view' }">
+    <v-bottom-navigation :model-value="activeTab" @update:model-value="handleTabChange" bg-color="var(--secondary-color)" grow>
+      <v-btn value="recipes" :to="{ name: 'recipe-view' }">
         <v-icon>mdi-silverware-fork-knife</v-icon>
         <span>Recepten</span>
       </v-btn>
 
-      <v-btn value="favorite-list" :to="{ name: 'FavoriteListView' }">
+      <v-btn value="favorites" :to="{ name: 'FavoriteListView' }">
         <v-icon>mdi-heart</v-icon>
         <span>Favorieten</span>
       </v-btn>
@@ -15,25 +15,32 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   setup() {
     const route = useRoute()
-    const active = ref('recipe-view')
+    const router = useRouter()
 
-    watch(
-      () => route.name, // Watch for route name changes
-      (name) => {
-        active.value = name // Update active button based on route name
-      },
-      { immediate: true }, // Run immediately to set initial value
-    )
+    const activeTab = computed(() => { // Determine active tab based on current route
+      if (route.name === 'recipe-view' || route.name === 'RecipeDetailView') {
+        return 'recipes'
+      } else if (route.name === 'FavoriteListView') {
+        return 'favorites'
+      }
+      return 'recipes'
+    })
 
-    return {
-      active, // Bind active to the template
+    const handleTabChange = (value) => { // value is either 'recipes' or 'favorites'
+      if (value === 'recipes') {
+        router.push({ name: 'recipe-view' })
+      } else if (value === 'favorites') {
+        router.push({ name: 'FavoriteListView' })
+      }
     }
+
+    return { activeTab, handleTabChange }
   },
 }
 </script>

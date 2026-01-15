@@ -12,6 +12,7 @@ const routes = [
     name: 'RecipeDetailView',
     component: () => import('@/views/RecipeDetailView.vue'),
     props: true,
+    meta: { section: 'recipes' },
   },
   {
     path: '/views/FavoriteListView',
