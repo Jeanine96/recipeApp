@@ -2,7 +2,7 @@
 import { doc, onSnapshot, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore'
 import db from '@/firebase/firebase.js'
 
-const userId = 'user123'
+const userId = import.meta.env.VITE_UserId
 const userRef = doc(db, 'users', userId)
 
 export function subscribeToUserFavorites(callback) {
