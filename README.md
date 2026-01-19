@@ -82,6 +82,7 @@ Planned improvements for upcoming versions include:
 - Organize favorite recipes into folders
 - Calorie tracker for each meal
 - AI-generated recipes based on available ingredients
+- Loginpage
 
 ## License
 
